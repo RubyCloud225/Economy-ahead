@@ -1,24 +1,25 @@
 import wbgapi as wb
+import pandas as pd
 
 class DataFetcher:
-    def __init__(self, economy, start_year, end_year, indicator):
+    def __init__(self, economies, start_year, end_year, indicators):
         """
         Initalize the EmploymentDataFetcher class.
         : params countries: List of countries to fetch employment data for.
         : params start_year: Start year of the data range.
         : params end_year: End year of the data range.
         """
-        self.economies = economy
+        self.economies = economies
         self.start_year = start_year
         self.end_year = end_year
-        self.indicator = indicator
+        self.indicators = indicators if isinstance(indicators, list) else [indicators]
         self.data = None
     
     def fetch_data(self):
         """Fetch Employment Data from the world Bank API"""
         try:
             self.data = wb.data.DataFrame(
-                self.indicator,
+                self.indicators,
                 economy=self.economies,
                 time = range(self.start_year, self.end_year + 1),
                 numericTimeKeys = True,
